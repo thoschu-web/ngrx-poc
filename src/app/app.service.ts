@@ -1,69 +1,69 @@
 import { Injectable } from '@angular/core';
 
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { dec, inc } from 'ramda';
 
-export interface TestState {
-  counter: number;
-  other: any;
-}
-
-export enum ServiceEventEnum {
-  INCREMENT = 'INCREMENT',
-  DECREMENT = 'DECREMENT',
-  RESET = 'RESET',
-  INIT = 'INIT'
-}
+import { AppServiceEnum } from './app.service.enum';
+import { AppServiceInterface } from './app.service.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppService {
-  private _state: TestState;
-  private readonly _state$: BehaviorSubject<TestState>;
-  public readonly state$: Observable<TestState>;
+  public readonly state$: Observable<AppServiceInterface>;
+  private readonly _state$: BehaviorSubject<AppServiceInterface>;
+  private _state: AppServiceInterface;
+  private static readonly initStateObject: AppServiceInterface = { counter: 1, other: Date.now().toString() };
 
   constructor() {
-    this._state = Object.freeze<TestState>({
-      counter: 1,
-      other: 'Tom S.'
-    });
-
-    this._state$ = new BehaviorSubject<TestState>(this._state);
+    this._state = Object.freeze<AppServiceInterface>(AppService.initStateObject);
+    this._state$ = new BehaviorSubject<AppServiceInterface>(this._state);
     this.state$ =this._state$.asObservable();
   }
 
-  private static handleState(state: TestState, counter: number): TestState {
-    return Object.freeze<TestState>({
+  private static handleCounterState(state: AppServiceInterface, counter: number): AppServiceInterface {
+    return Object.freeze<AppServiceInterface>({
       ...state,
       counter
     });
   }
 
-  public dispatch(event: ServiceEventEnum): void {
-    this._state = this.calculateState(this._state, event);
-    this._state$.next(this._state);
+  private static handleOtherState(state: AppServiceInterface, other: string): AppServiceInterface {
+    return Object.freeze<AppServiceInterface>({
+      ...state,
+      other
+    });
   }
 
-  private calculateState(state: TestState, event: ServiceEventEnum): TestState {
+  private calculateCounterState(state: AppServiceInterface, event: AppServiceEnum): AppServiceInterface {
     switch(event) {
-      case ServiceEventEnum.INCREMENT: {
-        const incrementState: TestState = AppService.handleState(state, state.counter + 1);
+      case AppServiceEnum.INCREMENT: {
+        const newCounterValue: number = dec(state.counter);
+        const newOtherValue: string = this.createDateString(state);
+        const incrementState: AppServiceInterface = AppService.handleCounterState(state, newCounterValue);
+        const newState: AppServiceInterface = AppService.handleOtherState(incrementState, newOtherValue);
 
-        return incrementState;
-
-        break;
-      }
-      case ServiceEventEnum.DECREMENT: {
-        const decrementState: TestState = AppService.handleState(state, state.counter - 1);
-
-        return decrementState;
+        return newState;
 
         break;
       }
-      case ServiceEventEnum.RESET: {
-        const resetState: TestState = AppService.handleState(state, 0);
+      case AppServiceEnum.DECREMENT: {
+        const newCounterValue: number = inc(state.counter);
+        const newOtherValue: string = this.createDateString(state);
+        const decrementState: AppServiceInterface = AppService.handleCounterState(state, newCounterValue);
+        const newState: AppServiceInterface = AppService.handleOtherState(decrementState, newOtherValue);
 
-        return resetState;
+        return newState;
+
+        break;
+      }
+      case AppServiceEnum.RESET: {
+        const newCounterValue: number = 0;
+        const newOtherValue: string = this.createDateString(state);
+        const resetState: AppServiceInterface = AppService.handleCounterState(state, newCounterValue);
+        const newState: AppServiceInterface = AppService.handleOtherState(resetState, newOtherValue);
+
+        return newState;
 
         break;
       }
@@ -73,14 +73,23 @@ export class AppService {
     }
   }
 
-  public foo(): void {
-    let messages = [ServiceEventEnum.INCREMENT, ServiceEventEnum.DECREMENT, ServiceEventEnum.INCREMENT, ServiceEventEnum.INCREMENT, ServiceEventEnum.RESET];
-
-    const res: TestState = messages.reduce(this.calculateState, {
-      counter: 0,
-      other: 'Tom S.'
-    });
-
-    console.log(res);
+  private createDateString(state: AppServiceInterface): string {
+    return state.other.concat(';', Date.now().toString());
   }
+
+  public dispatch(event: AppServiceEnum): void {
+    this._state = this.calculateCounterState(this._state, event);
+    this._state$.next(this._state);
+  }
+
+  // public foo(): void {
+  //   let messages = [AppServiceEnum.INCREMENT, AppServiceEnum.DECREMENT, AppServiceEnum.INCREMENT, AppServiceEnum.INCREMENT, AppServiceEnum.RESET];
+  //
+  //   const res: AppServiceInterface = messages.reduce(this.calculateCounterState, {
+  //     counter: 0,
+  //     other: 'Tom S.'
+  //   });
+  //
+  //   console.log(res);
+  // }
 }

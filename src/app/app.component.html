@@ -1,9 +1,10 @@
 <h1>{{title}}</h1>
-<app-foo></app-foo>
-<app-bar></app-bar>
-<app-baz></app-baz>
 <p>{{other$ | async}}</p>
 <p>{{counter$ | async}}</p>
 <button id="inc" (click)="increment()">INCREMENT</button>
 <button id="dec" (click)="decrement()">DECREMENT</button>
 <button id="res" (click)="reset()">RESET</button>
+<hr>
+<app-foo></app-foo>
+<app-bar></app-bar>
+<app-baz></app-baz>
