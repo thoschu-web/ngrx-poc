@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import {Observable} from "rxjs";
+import {map} from "rxjs/operators";
 
-import { AppService } from "./app.service";
-import { AppServiceEnum } from './app.service.enum';
+import {AppService} from "./app.service";
+import {AppServiceEnum} from './app.service.enum';
 
 @Component({
   selector: 'app-root',
