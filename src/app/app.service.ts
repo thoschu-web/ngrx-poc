@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Observable, shareReplay, startWith, Subject} from 'rxjs';
-import { scan } from 'rxjs/operators';
+import { map, scan} from 'rxjs/operators';
 import { dec, inc } from 'ramda';
 
 import { AppServiceEnum } from './app.service.enum';
@@ -20,16 +20,20 @@ export class AppService {
     this._messages$ = new Subject<AppServiceEnum>();
     this.state$ = this._messages$.pipe(
       startWith(AppServiceEnum.INIT),
-      scan(this.calculateCounterState, Object.freeze<AppServiceInterface>(AppService._initStateObject)),
+      scan(this.reducer, Object.freeze<AppServiceInterface>(AppService._initStateObject)),
       shareReplay(1)
     );
   }
 
-  public dispatch(event: AppServiceEnum): void {
+  public selector<T>(key: keyof AppServiceInterface): Observable<T> {
+    return this.state$.pipe<T>(map<AppServiceInterface, T>((state: AppServiceInterface) => state[key]));
+  }
+
+  public action(event: AppServiceEnum): void {
     this._messages$.next(event);
   }
 
-  private calculateCounterState(state: AppServiceInterface, event: AppServiceEnum): AppServiceInterface {
+  private reducer(state: AppServiceInterface, event: AppServiceEnum): AppServiceInterface {
     let returnState: AppServiceInterface;
 
     switch(event) {

@@ -1,10 +1,9 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import {Observable} from "rxjs";
-import {map} from "rxjs/operators";
+import { Observable } from "rxjs";
 
-import {AppService} from "./app.service";
-import {AppServiceEnum} from './app.service.enum';
+import { AppService } from "./app.service";
+import { AppServiceEnum } from './app.service.enum';
 
 @Component({
   selector: 'app-root',
@@ -18,8 +17,8 @@ export class AppComponent {
   public other$: Observable<string>;
 
   constructor(private readonly appService: AppService) {
-    this.counter$ = appService.state$.pipe(map(state => state.counter));
-    this.other$ = appService.state$.pipe(map(state => state.other));
+    this.counter$ = appService.selector<number>('counter');
+    this.other$ = appService.selector<string>('other');
   }
 
   public increment(): void {
@@ -35,6 +34,6 @@ export class AppComponent {
   }
 
   private dispatch(serviceEventEnum: AppServiceEnum): void {
-    this.appService.dispatch(serviceEventEnum);
+    this.appService.action(serviceEventEnum);
   }
 }
