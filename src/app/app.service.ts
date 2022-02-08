@@ -25,47 +25,38 @@ export class AppService {
     );
   }
 
+  public dispatch(event: AppServiceEnum): void {
+    this._messages$.next(event);
+  }
+
+  private calculateCounterState(state: AppServiceInterface, event: AppServiceEnum): AppServiceInterface {
+    let returnState: AppServiceInterface;
+
+    switch(event) {
+      case AppServiceEnum.INCREMENT: {
+        returnState = AppService.handleCounterState(state, dec(state.counter));
+        break;
+      }
+      case AppServiceEnum.DECREMENT: {
+        returnState =  AppService.handleCounterState(state, inc(state.counter));
+        break;
+      }
+      case AppServiceEnum.RESET: {
+        returnState = AppService.handleCounterState(state, 0);
+        break;
+      }
+      default: {
+        returnState = state;
+      }
+    }
+
+    return returnState;
+  }
+
   private static handleCounterState(state: AppServiceInterface, counter: number): AppServiceInterface {
     return Object.freeze<AppServiceInterface>({
       ...state,
       counter
     });
-  }
-
-  private calculateCounterState(state: AppServiceInterface, event: AppServiceEnum): AppServiceInterface {
-    switch(event) {
-      case AppServiceEnum.INCREMENT: {
-        const newCounterValue: number = dec(state.counter);
-        const incrementState: AppServiceInterface = AppService.handleCounterState(state, newCounterValue);
-
-        return incrementState;
-
-        break;
-      }
-      case AppServiceEnum.DECREMENT: {
-        const newCounterValue: number = inc(state.counter);
-        const decrementState: AppServiceInterface = AppService.handleCounterState(state, newCounterValue);
-
-        return decrementState;
-
-        break;
-      }
-      case AppServiceEnum.RESET: {
-        const newCounterValue: number = 0;
-        const resetState: AppServiceInterface = AppService.handleCounterState(state, newCounterValue);
-
-        return resetState;
-
-        break;
-      }
-      default: {
-        console.log(state);
-        return state;
-      }
-    }
-  }
-
-  public dispatch(event: AppServiceEnum): void {
-    this._messages$.next(event);
   }
 }
