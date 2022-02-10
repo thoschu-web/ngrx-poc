@@ -1,0 +1,20 @@
+{
+  "foo": [
+    {
+      "id": 1,
+      "foo": "json-server",
+      "other": "typicode"
+    }
+  ],
+  "bar": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "baz": {
+    "id": 13,
+    "name": "typicode"
+  }
+}

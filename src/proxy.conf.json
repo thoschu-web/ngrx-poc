@@ -1,0 +1,13 @@
+{
+  "/api": {
+    "target": "http://localhost:3000",
+    "secure": false,
+    "pathRewrite": {
+      "/api/foo": "/foo",
+      "/api/bar": "/bar",
+      "/api/baz": "/baz"
+    },
+    "changeOrigin": false,
+    "logLevel": "debug"
+  }
+}
