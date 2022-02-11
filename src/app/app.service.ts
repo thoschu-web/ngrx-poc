@@ -33,8 +33,14 @@ export class AppService {
     this._messages$.next(event);
   }
 
+  private cache({state}: any): void {
+    console.log({state});
+    //AppService.history.push()
+  }
+
   private reducer(state: AppServiceInterface, event: AppServiceEnum): AppServiceInterface {
     let returnState: AppServiceInterface;
+    this.cache(state);
 
     switch(event) {
       case AppServiceEnum.INCREMENT: {
