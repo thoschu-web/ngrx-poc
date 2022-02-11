@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { Observable, shareReplay, startWith, Subject} from 'rxjs';
-import { map, scan} from 'rxjs/operators';
+import { Observable, shareReplay, startWith, Subject } from 'rxjs';
+import { map, scan } from 'rxjs/operators';
 import { dec, inc } from 'ramda';
 
 import { AppServiceEnum } from './app.service.enum';
@@ -11,7 +11,7 @@ import { AppServiceInterface } from './app.service.interface';
   providedIn: 'root'
 })
 export class AppService {
-  public static history: Array<AppServiceInterface>;
+  public static history: Array<AppServiceInterface> = [];
   public readonly state$: Observable<AppServiceInterface>;
   private readonly _messages$: Subject<AppServiceEnum>;
   private static readonly _initStateObject: AppServiceInterface = { counter: 77, other: Date.now().toString() };
@@ -25,6 +25,10 @@ export class AppService {
     );
   }
 
+  private static cache(state: AppServiceInterface): void {
+    AppService.history.push(state);
+  }
+
   public selector<T>(key: keyof AppServiceInterface): Observable<T> {
     return this.state$.pipe<T>(map<AppServiceInterface, T>((state: AppServiceInterface) => state[key]));
   }
@@ -33,14 +37,10 @@ export class AppService {
     this._messages$.next(event);
   }
 
-  private cache({state}: any): void {
-    console.log({state});
-    //AppService.history.push()
-  }
-
   private reducer(state: AppServiceInterface, event: AppServiceEnum): AppServiceInterface {
     let returnState: AppServiceInterface;
-    this.cache(state);
+
+    AppService.cache(state);
 
     switch(event) {
       case AppServiceEnum.INCREMENT: {
