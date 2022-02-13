@@ -19,6 +19,6 @@ import * as fromBaz from './store/baz.reducer';
 })
 export class BazModule {
   constructor() {
-    console.log(fromBaz.bazFeatureKey);
+    // console.log(fromBaz.bazFeatureKey);
   }
 }

@@ -17,7 +17,12 @@ export const initialState: State = {
 
 export const reducer = createReducer(
   initialState,
-  on(BarActions.loadBars, state => state),
+  on(BarActions.loadBars, (state, action) => {
+    console.log(state);
+    console.log(action);
+
+    return state;
+  }),
   on(BarActions.loadBarsSuccess, (state, action) => state),
   on(BarActions.loadBarsFailure, (state, action) => state),
 );

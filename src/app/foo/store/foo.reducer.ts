@@ -17,7 +17,11 @@ export const initialState: State = {
 
 export const reducer = createReducer(
   initialState,
-  on(FooActions.loadFoos, state => state),
+  on(FooActions.loadFoos, (state, action) => {
+    console.log(state);
+    console.log(action);
+    return state;
+  }),
   on(FooActions.loadFoosSuccess, (state, action) => state),
   on(FooActions.loadFoosFailure, (state, action) => state),
 );

@@ -17,7 +17,7 @@ export const initialState: State = {
 
 export const reducer = createReducer(
   initialState,
-  on(BazActions.loadBazs, state => state),
+  on(BazActions.loadBazs, (state, action) => state),
   on(BazActions.loadBazsSuccess, (state, action) => state),
   on(BazActions.loadBazsFailure, (state, action) => state),
 );
