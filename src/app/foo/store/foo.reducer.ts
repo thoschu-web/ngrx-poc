@@ -6,12 +6,12 @@ import * as FooActions from './foo.actions';
 export const fooFeatureKey = 'foo';
 
 export interface State {
-  fooArr: FooInterface[],
+  foos: FooInterface[],
   loading: boolean
 }
 
 export const initialState: State = {
-  fooArr: [{id: 1, foo: 'Tom Foo'}],
+  foos: [{id: 1, foo: 'Tom Foo'}],
   loading: false
 };
 

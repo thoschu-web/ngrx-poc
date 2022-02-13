@@ -6,12 +6,12 @@ import * as BarActions from './bar.actions';
 export const barFeatureKey = 'bar';
 
 export interface State {
-  barArr: BarInterface[],
+  bars: BarInterface[],
   loading: boolean
 }
 
 export const initialState: State = {
-  barArr: [{id: 1, bar: 'Tom Bar', other: false}],
+  bars: [{id: 1, bar: 'Tom Bar', other: false}],
   loading: false
 };
 

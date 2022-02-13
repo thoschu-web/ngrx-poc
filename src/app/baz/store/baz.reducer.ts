@@ -6,12 +6,12 @@ import * as BazActions from './baz.actions';
 export const bazFeatureKey = 'baz';
 
 export interface State {
-  barArr: BazInterface[],
+  bars: BazInterface[],
   loading: boolean
 }
 
 export const initialState: State = {
-  barArr: [{id: 1, baz: 'Tom Baz', optional: false}],
+  bars: [{id: 1, baz: 'Tom Baz', optional: false}],
   loading: false
 };
 
