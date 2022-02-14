@@ -1,5 +1,5 @@
 import { Action, createReducer, on } from '@ngrx/store';
-import { dec, inc } from 'ramda';
+import { not } from 'ramda';
 
 import { FooInterface } from './foo.interface';
 import { loadFoos, loadFoosSuccess, loadFoosFailure } from './foo.actions';
@@ -21,14 +21,18 @@ export const reducer = createReducer(
   on(loadFoos, (state: FooState, action: Action) => {
     console.log(action);
     const loading = true;
-    return {...state, loading};
+    return Object.freeze<FooState>({...state, loading});
   }),
-  on(loadFoosSuccess, (state, action) => {
-    const newState: FooState = Object.freeze<FooState>({...state});
-
-    console.log(state);
+  on(loadFoosSuccess, (state, action): FooState => {
     console.log(action);
-    return newState;
+    const loading = false;
+    const foos = action.data;
+    console.dir(Object.freeze<FooState>({...state, foos, loading}));
+    return Object.freeze<FooState>({...state, foos, loading});
   }),
-  on(loadFoosFailure, (state, action) => state),
+  on(loadFoosFailure, (state, action) => {
+    console.log(action);
+    const loading = false;
+    return Object.freeze<FooState>({...state, loading});
+  })
 );
