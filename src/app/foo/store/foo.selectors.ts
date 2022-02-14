@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import * as fromFoo from './foo.reducer';
+import { fooFeatureKey, FooState } from './foo.reducer';
 
-export const selectFooState = createFeatureSelector<fromFoo.State>(
-  fromFoo.fooFeatureKey
+export const selectFooState = createFeatureSelector<FooState>(
+  fooFeatureKey
 );

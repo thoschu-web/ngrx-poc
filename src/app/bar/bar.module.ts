@@ -18,8 +18,4 @@ import { loadBarsSuccess } from './store/bar.actions';
   ],
   exports: [BarComponent]
 })
-export class BarModule {
-  constructor() {
-    console.log(loadBarsSuccess);
-  }
-}
+export class BarModule {}

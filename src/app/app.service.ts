@@ -33,14 +33,12 @@ export class AppService {
     return this.state$.pipe<T>(map<AppServiceInterface, T>((state: AppServiceInterface) => state[key]));
   }
 
-  public action(event: AppServiceEnum): void {
+  public action(event: AppServiceEnum, payload: any = null): void {
     this._messages$.next(event);
   }
 
   private reducer(state: AppServiceInterface, event: AppServiceEnum): AppServiceInterface {
     let returnState: AppServiceInterface;
-
-    AppService.cache(state);
 
     switch(event) {
       case AppServiceEnum.INCREMENT: {
@@ -64,6 +62,8 @@ export class AppService {
   }
 
   private static handleCounterState(state: AppServiceInterface, counter: number): AppServiceInterface {
+    AppService.cache(state);
+
     return Object.freeze<AppServiceInterface>({
       ...state,
       counter

@@ -5,15 +5,15 @@ import { BazInterface } from "./baz.interface";
 
 
 export const loadBazs = createAction(
-  '[BazInterface] Load Bazs'
+  '[Baz] Load Bazs'
 );
 
 export const loadBazsSuccess = createAction(
-  '[BazInterface] Load Bazs Success',
+  '[Baz] Load Bazs Success',
   props<{ data: BazInterface[] }>()
 );
 
 export const loadBazsFailure = createAction(
-  '[BazInterface] Load Bazs Failure',
+  '[Baz] Load Bazs Failure',
   props<{ error: HttpErrorResponse }>()
 );

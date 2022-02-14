@@ -4,15 +4,15 @@ import { createAction, props } from '@ngrx/store';
 import { FooInterface } from "./foo.interface";
 
 export const loadFoos = createAction(
-  '[FooInterface] Load Foos'
+  '[Foo] Load Foos'
 );
 
 export const loadFoosSuccess = createAction(
-  '[FooInterface] Load Foos Success',
+  '[Foo] Load Foos Success',
   props<{ data: FooInterface[] }>()
 );
 
 export const loadFoosFailure = createAction(
-  '[FooInterface] Load Foos Failure',
+  '[Foo] Load Foos Failure',
   props<{ error: HttpErrorResponse }>()
 );

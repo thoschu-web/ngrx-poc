@@ -5,26 +5,21 @@ import { Observable, EMPTY, of } from 'rxjs';
 
 import * as FooActions from './foo.actions';
 
-
-
 @Injectable()
 export class FooEffects {
+  public readonly loadFoos$: Observable<any>;
 
-  loadFoos$ = createEffect(() => {
-    return this.actions$.pipe( 
-
-      ofType(FooActions.loadFoos),
-      concatMap(() =>
-        /** An EMPTY observable only emits completion. Replace with your own observable API request */
-        EMPTY.pipe(
-          map(data => FooActions.loadFoosSuccess({ data })),
-          catchError(error => of(FooActions.loadFoosFailure({ error }))))
-      )
-    );
-  });
-
-
-
-  constructor(private actions$: Actions) {}
-
+  constructor(private readonly actions$: Actions) {
+    this.loadFoos$ = createEffect(() => {
+      return this.actions$.pipe(
+        ofType(FooActions.loadFoos),
+        concatMap(() =>
+          /** An EMPTY observable only emits completion. Replace with your own observable API request */
+          EMPTY.pipe(
+            map(data => FooActions.loadFoosSuccess({ data })),
+            catchError(error => of(FooActions.loadFoosFailure({ error }))))
+        )
+      );
+    });
+  }
 }

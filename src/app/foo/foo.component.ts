@@ -1,11 +1,12 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import {Observable} from "rxjs";
-import {map} from "rxjs/operators";
+import { Observable  } from "rxjs";
+import { map } from "rxjs/operators";
 
-import { loadFoos } from './store/foo.actions';
-import {AppService} from "../app.service";
+import { FooInterface } from "./store/foo.interface";
+import { loadFoos, loadFoosSuccess } from './store/foo.actions';
+import { AppService } from "../app.service";
 
 @Component({
   selector: 'app-foo',
@@ -23,6 +24,12 @@ export class FooComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const fooPayload: FooInterface[] = [{
+      id: 77,
+      foo: 'hello hamburg'
+    }];
+
+    console.log(loadFoosSuccess({data: fooPayload}));
     this.store.dispatch(loadFoos());
   }
 }
