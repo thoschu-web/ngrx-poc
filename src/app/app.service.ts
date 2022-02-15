@@ -26,7 +26,8 @@ export class AppService {
   }
 
   private static cache(state: AppServiceInterface): void {
-    AppService.history.push(state);
+    AppService.history.unshift(state);
+    AppService.history = AppService.history.slice(0, 5);
   }
 
   public selector<T>(key: keyof AppServiceInterface): Observable<T> {

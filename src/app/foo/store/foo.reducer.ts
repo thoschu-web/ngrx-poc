@@ -11,10 +11,10 @@ export interface FooState {
   loading: boolean
 }
 
-export const initialState: FooState = {
+export const initialState: FooState = Object.freeze<FooState>({
   foos: [{id: 1, foo: 'Tom Foo'}],
   loading: false
-};
+});
 
 export const reducer = createReducer(
   initialState,
@@ -25,8 +25,8 @@ export const reducer = createReducer(
   }),
   on(loadFoosSuccess, (state, action): FooState => {
     console.log(action);
+    const foos: FooInterface[] = action.data;
     const loading = false;
-    const foos = action.data;
     console.dir(Object.freeze<FooState>({...state, foos, loading}));
     return Object.freeze<FooState>({...state, foos, loading});
   }),
