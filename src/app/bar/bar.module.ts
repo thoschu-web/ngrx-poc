@@ -7,8 +7,6 @@ import * as fromBar from './store/bar.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { BarEffects } from './store/bar.effects';
 
-import { loadBarsSuccess } from './store/bar.actions';
-
 @NgModule({
   declarations: [BarComponent],
   imports: [

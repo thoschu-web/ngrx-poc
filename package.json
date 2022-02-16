@@ -8,7 +8,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "json:server": "npx json-server --watch db.json"
+    "json:server": "npx json-server --watch db.json",
+    "pitsby:build": "pitsby build"
   },
   "private": true,
   "dependencies": {
@@ -32,6 +33,7 @@
     "@angular-devkit/build-angular": "~13.0.4",
     "@angular/cli": "~13.0.4",
     "@angular/compiler-cli": "~13.0.0",
+    "@glorious/pitsby": "^1.30.11",
     "@ngrx/schematics": "^13.0.2",
     "@types/jasmine": "~3.10.0",
     "@types/node": "^12.11.1",

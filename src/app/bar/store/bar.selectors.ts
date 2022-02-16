@@ -1,6 +1,16 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import * as fromBar from './bar.reducer';
+import { barFeatureKey, BarState } from './bar.reducer';
 
-export const selectBarState = createFeatureSelector<fromBar.State>(
-  fromBar.barFeatureKey
+export const selectBarStateSlice = createFeatureSelector<BarState>(
+  barFeatureKey
+);
+
+export const selectBarStateLoading = createSelector(
+  selectBarStateSlice,
+  (state: BarState) => state.loading
+);
+
+export const selectBarStateBars = createSelector(
+  selectBarStateSlice,
+  (state: BarState) => state.bars
 );
